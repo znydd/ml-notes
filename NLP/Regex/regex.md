@@ -220,3 +220,35 @@ print(f"Wrong: {re.findall(r'ha+', text)}")
 # Right way
 print(f"Right: {re.findall(r'(ha)+', text)}")
 ```
+
+-   ### Shortcut for Range
+
+![Range Shortcut](groups.png)
+-   ### For Special charcaters
+![Range Shortcut](special_char.png)
+
+-   ### Capture Group (An Example copied from book)
+`re.sub(pattern, repl, string)` takes **three** arguments: a pattern to search for, a
+replacement to replace it with, and a string in which to do the search and replacing.
+
+Suppose we have a document in which all the dates are in US format `(mm/dd/yyyy)` and we want to change them into the 
+format used in the EU and many other regions: `(dd-mm-yyyy)`. The pattern `r"\d{2}/\d{2}/\d{4}"` will match a date.
+But how do we specify in the replacement that we want to swap the date and month values? The tool in regular expression
+for this is the **capture group**. A capture group uses parentheses to capture **(store)** the values that we matched in 
+the search, so we can reuse them in the replacement. We put a set of parentheses around the part of the pattern we want to
+capture and **it will get stored in a numbered group (groups are numbered from left to right)**.
+Then in the repl, we refer back to that group with a number command.
+
+Consider the following expression:
+
+`re.sub(r"(\d{2})/(\d{2})/(\d{4})", r"\2-\1-\3", string)}`
+
+We’ve put parentheses `(` and `)` around the two month digits, the two day digits, and the four year digits, thus storing
+the first 2 digits in group 1, the second 2 digits in group 2, and the final digits in group 3. Then in the repl string, 
+we use number operators `\1, \2, and \3,` to refer back to the **first, second, and third** registers. The result would take a string like
+<strong>
+The date is 10/15/2011
+and convert it to
+The date is 15-10-2011
+</strong>
+
